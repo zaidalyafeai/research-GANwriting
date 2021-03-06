@@ -19,8 +19,13 @@ NORMAL = True
 OUTPUT_MAX_LEN = MAX_CHARS+2 # <GO>+groundtruth+<END>
 
 '''The folder of IAM word images, please change to your own one before run it!!'''
-img_base = '/home/lkang/datasets/iam_final_forms/words_from_forms/'
+img_base = '../datasets/iam/words'
 text_corpus = 'corpora_english/brown-azAZ.tr'
+
+def get_path_from_name(name):
+  base1 = name.split('-')[0]
+  base2 = base1+'-'+name.split('-')[1]
+  return f'{base1}/{base2}/{name}'
 
 with open(text_corpus, 'r') as _f:
     text_corpus = _f.read().split()
@@ -139,6 +144,7 @@ class IAM_words(D.Dataset):
         return len(self.data_dict)
 
     def read_image_single(self, file_name):
+        file_name = get_path_from_name(file_name)
         url = os.path.join(img_base, file_name + '.png')
         img = cv2.imread(url, 0)
 
