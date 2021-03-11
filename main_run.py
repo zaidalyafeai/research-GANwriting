@@ -16,7 +16,7 @@ args = parser.parse_args()
 
 gpu = torch.device('cuda')
 
-OOV = True
+OOV = False
 
 NUM_THREAD = 2
 
@@ -62,7 +62,7 @@ def sort_batch(batch):
         train_idx.append(idx)
         train_img.append(img)
         train_img_width.append(img_width)
-        print(label)
+        # print(label)
         train_label.append(label)
         img_xts.append(img_xt)
         label_xts.append(label_xt)

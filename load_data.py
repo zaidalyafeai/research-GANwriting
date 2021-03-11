@@ -186,7 +186,7 @@ def loadData(oov):
     # print(oov)
     with open(gt_tr, 'r') as f_tr:
         data_tr = f_tr.readlines()
-        print(data_tr)
+        # print(data_tr)
         data_tr = [i.strip().split(' ') for i in data_tr]
         tr_dict = dict()
         for i in data_tr:
@@ -198,8 +198,8 @@ def loadData(oov):
         new_tr_dict = dict()
         if CREATE_PAIRS:
             create_pairs(tr_dict)
-        print(tr_dict)
-        print(wid2label_tr)
+        # print(tr_dict)
+        # print(wid2label_tr)
         for k in tr_dict.keys():
             
             new_tr_dict[int(k)] = tr_dict[k]
@@ -227,7 +227,7 @@ def loadData(oov):
 def create_pairs(ddict):
     num = len(ddict.keys())
     label2wid = list(zip(range(num), ddict.keys()))
-    print(label2wid)
+    # print(label2wid)
 
 if __name__ == '__main__':
     pass
