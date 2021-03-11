@@ -14,24 +14,19 @@ MAX_CHARS = 10
 # NUM_CHANNEL = 15
 NUM_CHANNEL = 50
 EXTRA_CHANNEL = NUM_CHANNEL+1
-NUM_WRITERS = 500 # iam
+NUM_WRITERS = 2 # iam
 NORMAL = True
 OUTPUT_MAX_LEN = MAX_CHARS+2 # <GO>+groundtruth+<END>
 
 '''The folder of IAM word images, please change to your own one before run it!!'''
-img_base = '../datasets/iam/words'
+img_base = ''
 text_corpus = 'corpora_english/brown-azAZ.tr'
-
-def get_path_from_name(name):
-  base1 = name.split('-')[0]
-  base2 = base1+'-'+name.split('-')[1]
-  return f'{base1}/{base2}/{name}'
 
 with open(text_corpus, 'r') as _f:
     text_corpus = _f.read().split()
 
-src = 'Groundtruth/gan.iam.tr_va.gt.filter27'
-tar = 'Groundtruth/gan.iam.test.gt.filter27'
+src = 'Groundtruth/gan.calli.test.gt.filter32'
+tar = src
 
 def labelDictionary():
     labels = list(string.ascii_lowercase + string.ascii_uppercase)
@@ -91,6 +86,7 @@ class IAM_words(D.Dataset):
             wid, idx = word[0].split(',')
             img, img_width = self.read_image_single(idx)
             label = self.label_padding(' '.join(word[1:]), num_tokens)
+            label = label[:12]
             wids.append(wid)
             idxs.append(idx)
             imgs.append(img)
@@ -144,12 +140,11 @@ class IAM_words(D.Dataset):
         return len(self.data_dict)
 
     def read_image_single(self, file_name):
-        file_name = get_path_from_name(file_name)
-        url = os.path.join(img_base, file_name + '.png')
+        
+        url = os.path.join(img_base, file_name)
         img = cv2.imread(url, 0)
-
         if img is None and os.path.exists(url):
-            # image is present but corrupted
+            print('image is present but corrupted')
             return np.zeros((IMG_HEIGHT, IMG_WIDTH)), 0
 
         rate = float(IMG_HEIGHT) / img.shape[0]
@@ -187,9 +182,11 @@ class IAM_words(D.Dataset):
 def loadData(oov):
     gt_tr = src
     gt_te = tar
-
+    # print(wid2label_tr)
+    # print(oov)
     with open(gt_tr, 'r') as f_tr:
         data_tr = f_tr.readlines()
+        print(data_tr)
         data_tr = [i.strip().split(' ') for i in data_tr]
         tr_dict = dict()
         for i in data_tr:
@@ -201,8 +198,11 @@ def loadData(oov):
         new_tr_dict = dict()
         if CREATE_PAIRS:
             create_pairs(tr_dict)
+        print(tr_dict)
+        print(wid2label_tr)
         for k in tr_dict.keys():
-            new_tr_dict[wid2label_tr[k]] = tr_dict[k]
+            
+            new_tr_dict[int(k)] = tr_dict[k]
 
     with open(gt_te, 'r') as f_te:
         data_te = f_te.readlines()
@@ -218,7 +218,7 @@ def loadData(oov):
         if CREATE_PAIRS:
             create_pairs(te_dict)
         for k in te_dict.keys():
-            new_te_dict[wid2label_te[k]] = te_dict[k]
+            new_te_dict[int(k)] = te_dict[k]
 
     data_train = IAM_words(new_tr_dict, oov)
     data_test = IAM_words(new_te_dict, oov)

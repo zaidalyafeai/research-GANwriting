@@ -62,6 +62,7 @@ def sort_batch(batch):
         train_idx.append(idx)
         train_img.append(img)
         train_img_width.append(img_width)
+        print(label)
         train_label.append(label)
         img_xts.append(img_xt)
         label_xts.append(label_xt)
@@ -72,6 +73,7 @@ def sort_batch(batch):
     train_wid = np.array(train_wid, dtype='int64')
     train_img = np.array(train_img, dtype='float32')
     train_img_width = np.array(train_img_width, dtype='int64')
+    print([len(s) for s in train_label[0]])
     train_label = np.array(train_label, dtype='int64')
     img_xts = np.array(img_xts, dtype='float32')
     label_xts = np.array(label_xts, dtype='int64')
@@ -80,6 +82,7 @@ def sort_batch(batch):
     train_wid = torch.from_numpy(train_wid)
     train_img = torch.from_numpy(train_img)
     train_img_width = torch.from_numpy(train_img_width)
+    
     train_label = torch.from_numpy(train_label)
     img_xts = torch.from_numpy(img_xts)
     label_xts = torch.from_numpy(label_xts)
