@@ -73,7 +73,7 @@ def sort_batch(batch):
     train_wid = np.array(train_wid, dtype='int64')
     train_img = np.array(train_img, dtype='float32')
     train_img_width = np.array(train_img_width, dtype='int64')
-    print([len(s) for s in train_label[0]])
+    # print([len(s) for s in train_label[0]])
     train_label = np.array(train_label, dtype='int64')
     img_xts = np.array(img_xts, dtype='float32')
     label_xts = np.array(label_xts, dtype='int64')
