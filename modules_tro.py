@@ -44,6 +44,7 @@ def write_image(xg, pred_label, gt_img, gt_label, tr_imgs, xg_swap, pred_label_s
     outs = list()
     for i in range(batch_size):
         src = tr_imgs[i].reshape(num_tr*IMG_HEIGHT, -1)
+        print(np.mean(src))
         gt = gt_img[i].squeeze()
         tar = xg[i].squeeze()
         tar_swap = xg_swap[i].squeeze()
