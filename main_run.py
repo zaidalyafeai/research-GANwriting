@@ -28,7 +28,7 @@ LABEL_SMOOTH = True
 Bi_GRU = True
 VISUALIZE_TRAIN = True
 
-BATCH_SIZE = 8
+BATCH_SIZE = 2
 lr_dis = 1 * 1e-4
 lr_gen = 1 * 1e-4
 lr_rec = 1 * 1e-5
